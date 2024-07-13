@@ -7,6 +7,8 @@
 6. Acesse o container do php `docker exec -it docker_conf-php81-1 bash`
 7. Dentro do container, instale as dependências do projeto `composer install`
 8. Gere a chave do projeto `php artisan key:generate`
+9. Ajuste as configurações do apache em `cd /etc/apache2/sites-available`
+10. Ative o site `a2ensite 000-default.conf`
 
 ### Erros comuns
 - Caso algum container não suba, verifique se a porta que ele está tentando subir não está ocupada
