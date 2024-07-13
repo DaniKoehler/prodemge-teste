@@ -9,6 +9,7 @@
 8. Gere a chave do projeto `php artisan key:generate`
 9. Ajuste as configurações do apache em `cd /etc/apache2/sites-available`
 10. Ative o site `a2ensite 000-default.conf`
+11. Reinicie o apache `service apache2 restart`
 
 ### Erros comuns
 - Caso algum container não suba, verifique se a porta que ele está tentando subir não está ocupada
