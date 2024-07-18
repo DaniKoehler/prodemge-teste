@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
     {
+        path: '/',
+        redirect: '/persons',
+    },
+    {
         path: '/persons',
         name: 'PersonList',
         component: () => import('./layouts/persons/PersonList.vue'),

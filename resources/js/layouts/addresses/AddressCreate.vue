@@ -17,6 +17,7 @@
                             ></v-select>
                             <v-text-field
                                 v-model="address.cep"
+                                v-mask="'#####-###'"
                                 label="CEP"
                                 @blur="fetchCep"
                                 required
@@ -72,8 +73,10 @@
 
 <script>
 import axios from 'axios';
+import { mask } from 'vue-the-mask'
 
 export default {
+    directives: { mask },
     props: ['personId'],
     data() {
         return {

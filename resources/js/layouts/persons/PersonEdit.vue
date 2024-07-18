@@ -19,6 +19,7 @@
                             ></v-text-field>
                             <v-text-field
                                 v-model="person.cpf"
+                                v-mask="'###.###.###-##'"
                                 label="CPF"
                                 required
                             ></v-text-field>
@@ -32,6 +33,7 @@
                             ></v-text-field>
                             <v-text-field
                                 v-model="person.phone"
+                                v-mask="'(##) #####-####'"
                                 label="Telefone"
                             ></v-text-field>
                             <v-text-field
@@ -58,8 +60,10 @@
 
 <script>
 import axios from 'axios';
+import { mask } from 'vue-the-mask';
 
 export default {
+    directives: { mask },
     data() {
         return {
             person: {
