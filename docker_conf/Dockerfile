@@ -5,7 +5,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y nano libpq-dev li
     && docker-php-ext-install pdo pdo_pgsql pgsql gd zip exif soap gettext mysqli pdo_mysql bcmath \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && pecl install memcached xdebug igbinary redis \
-    && docker-php-ext-enable memcached xdebug igbinary exif \
+    && docker-php-ext-enable memcached xdebug igbinary exif redis \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && a2enmod rewrite headers ssl evasive proxy proxy_http \
     && wget -O /tmp/libapache2-mod-proxy-html.deb 'http://security.ubuntu.com/ubuntu/pool/universe/a/apache2/libapache2-mod-proxy-html_2.4.7-1ubuntu4.22_amd64.deb' \
@@ -17,7 +17,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y nano libpq-dev li
     && addgroup --gid 1024 docker-apache || true \
     && usermod -a -G docker-apache www-data || true \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-    && curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get -y install nodejs \
     && echo 'America/Sao_Paulo' > /etc/timezone \
     && rm /etc/localtime \
@@ -33,4 +33,16 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y nano libpq-dev li
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Define um diretório de trabalho
+COPY . /var/www/html
+RUN mkdir -p /var/php-session && chmod -R 777 /var/php-session
 WORKDIR /var/www/html
+CMD chown -R www-data:docker-apache /var/www/html
+CMD chmod -R 775 /var/www/html
+CMD chmod -R 777 /var/www/html/storage
+CMD composer install
+CMD npm install
+CMD npm run dev
+CMD php artisan key:generate
+CMD php artisan migrate
+CMD php artisan serve --host=0.0.0.0 --port=8000
+EXPOSE 8000
